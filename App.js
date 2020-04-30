@@ -1,19 +1,45 @@
+// External dependencies
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {Text, View} from 'react-native';
+import {NativeRouter, Route} from "react-router-native";
+// Internal dependencies
+import {WrappersStyle} from "./src/style/wrappers.style";
+import LoginScreen from "./src/screen/Login.screen";
+import FacilityListScreen from "./src/screen/FacilityList.screen";
+import Navigation from "./src/components/navigation.component";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+        this.state = {};
+    }
+
+    render() {
+        return (<View style={WrappersStyle.applicationWrapper}>
+            <NativeRouter>
+                <Route exact path="/facility-list">
+                    <FacilityListScreen />
+                </Route>
+
+                <Route exact path="/login">
+                    <LoginScreen />
+                </Route>
+                <Route exact path="/host-signup">
+                    <View>
+                        <Text>HOST SIGNUP SCREEN</Text>
+                    </View>
+                </Route>
+                <Route exact path="/guest-signup">
+                    <View><Text>GUEST SIGNUP SCREEN</Text></View>
+                </Route>
+
+                <Route exact path="/">
+                    <LoginScreen />
+                </Route>
+
+                <Navigation />
+            </NativeRouter>
+        </View>);
+    }
+};
