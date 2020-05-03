@@ -1,8 +1,12 @@
 import { createStore } from "redux";
 import Reducer from "./Redux.Reducer";
 
-let store = {};
+let Store = {
+    email: 'hub@oykos.me',
+    firstName: 'Filip',
+    lastName: 'Andjelic'
+};
 
-store = createStore(Reducer, {});
+Store = createStore(Reducer, Store);
 
-export default store;
+export default Store;

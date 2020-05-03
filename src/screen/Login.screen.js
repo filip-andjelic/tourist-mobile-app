@@ -1,15 +1,18 @@
 // External dependencies
 import React from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
+import { connect } from 'react-redux';
 import {Redirect} from "react-router-native";
 // Internal dependencies
 import ScrollableScreenWrapper from "../components/scrollable.screen.wrapper";
 import {GeneralStyle} from "../style/general.style";
-import splash from "../../assets/splash.png";
+import splash from "../../assets/logo.png";
 import {TextStyle} from "../style/text.style";
 import Input from "../components/input.component";
+import {LoginAction} from "../service/Redux.Actions";
+import {WrappersStyle} from "../style/wrappers.style";
 
-export default class LoginScreen extends React.Component {
+class Login extends React.Component {
     constructor(props) {
         super(props);
 
@@ -22,15 +25,17 @@ export default class LoginScreen extends React.Component {
     }
 
     render() {
-        const content = (<View style={[GeneralStyle.widthHeight100perc, <GeneralStyle className="grow1"></GeneralStyle>]}>
+        const content = (<View style={[GeneralStyle.widthHeight100perc, GeneralStyle.grow1]}>
             <View style={[GeneralStyle.centerAll, { height: '30%'}]}>
                 <Image
-                    style={{ width: 250, height: 250 }}
+                    style={{ width: 180, height: 180, margin: 35 }}
                     source={splash}
                 />
             </View>
             <View style={[GeneralStyle.marginTop30, GeneralStyle.grow1, GeneralStyle.horizontalGlobalPadding, GeneralStyle.alignCenter]}>
-                <Text style={TextStyle.h1}>Welcome!</Text>
+                <Text style={TextStyle.h1}>
+                    {this.props.email ? this.props.email : 'Welcome!'}
+                </Text>
 
                 <View style={GeneralStyle.marginTop30}>
                     <Input
@@ -59,7 +64,16 @@ export default class LoginScreen extends React.Component {
                 </View>
             </View>
             <View style={[GeneralStyle.row, GeneralStyle.justifyBetween, GeneralStyle.marginTop30]}>
-                <Text>buttons</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                        this.props.loginAction({
+                            email: this.state.email,
+                            password: this.state.password,
+                        });
+                    }}
+                >
+                    <Text>LOGIN</Text>
+                </TouchableOpacity>
             </View>
         </View>);
 
@@ -67,4 +81,21 @@ export default class LoginScreen extends React.Component {
             content={content}
         />);
     }
+}
+
+const mapStateToProps = (state) => {
+    return({
+        email: state ? state.email : '',
+    });
 };
+
+const mapDispatchToProps = (dispatch) => {
+    return({
+        loginAction: params => dispatch(LoginAction(params)),
+    });
+};
+
+export const LoginScreen = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login);
