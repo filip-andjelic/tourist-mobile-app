@@ -34,7 +34,7 @@ class Login extends React.Component {
             </View>
             <View style={[GeneralStyle.marginTop30, GeneralStyle.grow1, GeneralStyle.horizontalGlobalPadding, GeneralStyle.alignCenter]}>
                 <Text style={TextStyle.h1}>
-                    {this.props.email ? this.props.email : 'Welcome!'}
+                    {'Welcome!'}
                 </Text>
 
                 <View style={GeneralStyle.marginTop30}>
