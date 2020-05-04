@@ -3,6 +3,7 @@ import React from 'react';
 import {Text, View, Image, TouchableOpacity} from 'react-native';
 import { connect } from 'react-redux';
 import {Redirect} from "react-router-native";
+import Toast from 'react-native-simple-toast';
 // Internal dependencies
 import ScrollableScreenWrapper from "../components/scrollable.screen.wrapper";
 import {GeneralStyle} from "../style/general.style";
@@ -11,6 +12,10 @@ import {TextStyle} from "../style/text.style";
 import Input from "../components/input.component";
 import {LoginAction} from "../service/Redux.Actions";
 import {WrappersStyle} from "../style/wrappers.style";
+import {TopButton} from "../components/buttons/top.button.component";
+import {BottomButton} from "../components/buttons/bottom.button.component";
+import {UtilService} from "../service/util.service";
+import {ApiService} from "../service/api.service";
 
 class Login extends React.Component {
     constructor(props) {
@@ -25,16 +30,32 @@ class Login extends React.Component {
     }
 
     render() {
+        if (!!this.state.redirect) return (<Redirect to={this.state.redirect}/>);
+
         const content = (<View style={[GeneralStyle.widthHeight100perc, GeneralStyle.grow1]}>
-            <View style={[GeneralStyle.centerAll, { height: '30%'}]}>
+            <TopButton
+                icon="back"
+                pressHandle={() => {
+                    this.setState({
+                        redirect: '/facility-list'
+                    });
+                }}
+            />
+
+            <View style={[GeneralStyle.centerAll, { height: '30%', marginTop: 30}]}>
                 <Image
                     style={{ width: 180, height: 180, margin: 35 }}
                     source={splash}
                 />
             </View>
+
             <View style={[GeneralStyle.marginTop30, GeneralStyle.grow1, GeneralStyle.horizontalGlobalPadding, GeneralStyle.alignCenter]}>
                 <Text style={TextStyle.h1}>
-                    {'Welcome!'}
+                    {
+                        this.props.email ?
+                            'Welcome ' + this.props.email + '!' :
+                            'LogIn to our App!'
+                    }
                 </Text>
 
                 <View style={GeneralStyle.marginTop30}>
@@ -63,17 +84,46 @@ class Login extends React.Component {
                     />
                 </View>
             </View>
+
             <View style={[GeneralStyle.row, GeneralStyle.justifyBetween, GeneralStyle.marginTop30]}>
-                <TouchableOpacity
-                    onPress={() => {
-                        this.props.loginAction({
-                            email: this.state.email,
-                            password: this.state.password,
+                <BottomButton
+                    icon="switch"
+                    side="left"
+                    pressHandle={() => {
+                        this.setState({
+                            redirect: '/signup'
                         });
                     }}
-                >
-                    <Text>LOGIN</Text>
-                </TouchableOpacity>
+                />
+
+                <BottomButton
+                    icon="login"
+                    size={40}
+                    pressHandle={() => {
+                        if (!this.state.email || !this.state.password || !UtilService.validateEmail(this.state.email)) {
+                            Toast.show('Please make sure you entered valid information!', Toast.LONG);
+
+                            return;
+                        }
+
+                        ApiService.endpoints.loginAttempt({
+                            email: this.state.email,
+                            password: this.state.password,
+                            isHost: false
+                        }).then((response) => {
+                            if (!response || response.errorMessage) {
+                                Toast.show('Login Failed! Check your information inputs...', Toast.LONG);
+
+                                return;
+                            }
+                            const data = response.data && response.data.user ? response.data.user : {};
+
+                            Toast.show('Welcome!', Toast.LONG);
+
+                            this.props.loginAction(data);
+                        });
+                    }}
+                />
             </View>
         </View>);
 
@@ -91,7 +141,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return({
-        loginAction: params => dispatch(LoginAction(params)),
+        loginAction: (params) => {
+            dispatch(LoginAction(params));
+        },
     });
 };
 

@@ -5,5 +5,12 @@ export const Types = {
 export const LoginAction = (data) => ({
     type: Types.loginSuccess,
     email: data.email,
-    password: data.password,
+    entries: data.entries,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    isHost: data.isHost,
+    messages: data.messages,
+    photoUrl: data.photoUrl,
+    rating: data.rating,
+    token: data.token
 });

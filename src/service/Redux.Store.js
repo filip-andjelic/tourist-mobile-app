@@ -2,9 +2,9 @@ import { createStore } from "redux";
 import Reducer from "./Redux.Reducer";
 
 let Store = {
-    email: 'hub@oykos.me',
-    firstName: 'Filip',
-    lastName: 'Andjelic'
+    email: '',
+    firstName: '',
+    lastName: ''
 };
 
 Store = createStore(Reducer, Store);

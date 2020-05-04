@@ -5,14 +5,18 @@ const INITIAL_STATE = {};
 export default function (state = INITIAL_STATE, action) {
     switch (action.type) {
         case Types.loginSuccess:
-            console.log(action);
             return {
                 ...state,
-                password: action.password,
                 email: action.email,
+                entries: data.entries,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                isHost: data.isHost,
+                messages: data.messages,
+                photoUrl: data.photoUrl,
+                rating: data.rating,
+                token: data.token
             };
-
-            break;
         default: {
             return {
                 ...state

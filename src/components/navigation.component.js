@@ -2,11 +2,12 @@
 import React from "react";
 import {Text, View, TouchableOpacity} from "react-native";
 import { Redirect } from "react-router-native";
+import { withRouter } from "react-router";
 // Internal dependencies
 import {WrappersStyle} from "../style/wrappers.style";
 import {GeneralStyle} from "../style/general.style";
 
-export default class Navigation extends React.Component {
+class Nav extends React.Component {
     constructor(props) {
         super(props);
 
@@ -14,6 +15,16 @@ export default class Navigation extends React.Component {
     }
 
     render() {
+        const { location } = this.props;
+
+        if (
+            location && location.pathname && (
+                location.pathname.indexOf('login') >= 0 || location.pathname.indexOf('signup') >= 0
+            )
+        ) {
+            return (<View />);
+        }
+
         return (<View style={[WrappersStyle.navigationWrapper, GeneralStyle.absoluteBottom]}>
             {
                 !!this.state.redirect && <Redirect to={this.state.redirect}/>
@@ -54,3 +65,5 @@ export default class Navigation extends React.Component {
         </View>);
     }
 }
+
+export const Navigation = withRouter(Nav);
