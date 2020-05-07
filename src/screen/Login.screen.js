@@ -1,7 +1,7 @@
 // External dependencies
 import React from 'react';
-import {Text, View, Image, TouchableOpacity} from 'react-native';
-import { connect } from 'react-redux';
+import {Text , View , Image , TouchableOpacity} from 'react-native';
+import {connect} from 'react-redux';
 import {Redirect} from "react-router-native";
 import Toast from 'react-native-simple-toast';
 // Internal dependencies
@@ -19,37 +19,46 @@ import {ApiService} from "../service/api.service";
 
 class Login extends React.Component {
     constructor(props) {
-        super(props);
+        super ( props );
 
         this.state = {
-            isHost: false,
-            email: '',
-            password: '',
-            keepMeSigned: true
+            isHost : false ,
+            email : '' ,
+            password : '' ,
+            keepMeSigned : true
         };
     }
 
+    componentDidMount() {
+            this.setState ( { email : this.props.email , password : this.props.password } )
+        console.log("this.props");
+        console.log(this.props);
+    }
+
     render() {
+        console.log("this.state.email");
+        console.log(this.state.email);
         if (!!this.state.redirect) return (<Redirect to={this.state.redirect}/>);
 
-        const content = (<View style={[GeneralStyle.widthHeight100perc, GeneralStyle.grow1]}>
+        const content = (<View style={[GeneralStyle.widthHeight100perc , GeneralStyle.grow1]}>
             <TopButton
                 icon="back"
                 pressHandle={() => {
-                    this.setState({
-                        redirect: '/facility-list'
-                    });
+                    this.setState ( {
+                        redirect : '/facility-list'
+                    } );
                 }}
             />
 
-            <View style={[GeneralStyle.centerAll, { height: '30%', marginTop: 30}]}>
+            <View style={[GeneralStyle.centerAll , { height : '30%' , marginTop : 30 }]}>
                 <Image
-                    style={{ width: 180, height: 180, margin: 35 }}
+                    style={{ width : 180 , height : 180 , margin : 35 }}
                     source={splash}
                 />
             </View>
 
-            <View style={[GeneralStyle.marginTop30, GeneralStyle.grow1, GeneralStyle.horizontalGlobalPadding, GeneralStyle.alignCenter]}>
+            <View
+                style={[GeneralStyle.marginTop30 , GeneralStyle.grow1 , GeneralStyle.horizontalGlobalPadding , GeneralStyle.alignCenter]}>
                 <Text style={TextStyle.h1}>
                     {
                         this.props.email ?
@@ -62,37 +71,37 @@ class Login extends React.Component {
                     <Input
                         label={'Your e-mail'}
                         value={this.state.email}
-                        inputStyle={{ minWidth: '60%' }}
+                        inputStyle={{ minWidth : '60%' }}
                         type={'email'}
                         onChange={(value) => {
-                            this.setState({
-                                email: value
-                            });
+                            this.setState ( {
+                                email : value
+                            } );
                         }}
                     />
 
                     <Input
                         label={'Your password'}
                         value={this.state.password}
-                        inputStyle={{ minWidth: '60%' }}
+                        inputStyle={{ minWidth : '60%' }}
                         type={'password'}
                         onChange={(value) => {
-                            this.setState({
-                                password: value
-                            });
+                            this.setState ( {
+                                password : value
+                            } );
                         }}
                     />
                 </View>
             </View>
 
-            <View style={[GeneralStyle.row, GeneralStyle.justifyBetween, GeneralStyle.marginTop30]}>
+            <View style={[GeneralStyle.row , GeneralStyle.justifyBetween , GeneralStyle.marginTop30]}>
                 <BottomButton
                     icon="switch"
                     side="left"
                     pressHandle={() => {
-                        this.setState({
-                            redirect: '/signup'
-                        });
+                        this.setState ( {
+                            redirect : '/signup'
+                        } );
                     }}
                 />
 
@@ -100,28 +109,28 @@ class Login extends React.Component {
                     icon="login"
                     size={40}
                     pressHandle={() => {
-                        if (!this.state.email || !this.state.password || !UtilService.validateEmail(this.state.email)) {
-                            Toast.show('Please make sure you entered valid information!', Toast.LONG);
+                        if (!this.state.email || !this.state.password || !UtilService.validateEmail ( this.state.email )) {
+                            Toast.show ( 'Please make sure you entered valid information!' , Toast.LONG );
 
                             return;
                         }
 
-                        ApiService.endpoints.loginAttempt({
-                            email: this.state.email,
-                            password: this.state.password,
-                            isHost: false
-                        }).then((response) => {
+                        ApiService.endpoints.loginAttempt ( {
+                            email : this.state.email ,
+                            password : this.state.password ,
+                            isHost : false
+                        } ).then ( (response) => {
                             if (!response || response.errorMessage) {
-                                Toast.show('Login Failed! Check your information inputs...', Toast.LONG);
+                                Toast.show ( 'Login Failed! Check your information inputs...' , Toast.LONG );
 
                                 return;
                             }
                             const data = response.data && response.data.user ? response.data.user : {};
 
-                            Toast.show('Welcome!', Toast.LONG);
+                            Toast.show ( 'Welcome!' , Toast.LONG );
 
-                            this.props.loginAction(data);
-                        });
+                            this.props.loginAction ( data );
+                        } );
                     }}
                 />
             </View>
@@ -134,20 +143,21 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return({
-        email: state ? state.email : '',
+    return ({
+        email : state ? state.email : '' ,
+        password : state ? state.password : '' ,
     });
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return({
-        loginAction: (params) => {
-            dispatch(LoginAction(params));
-        },
+    return ({
+        loginAction : (params) => {
+            dispatch ( LoginAction ( params ) );
+        } ,
     });
 };
 
-export const LoginScreen = connect(
-    mapStateToProps,
+export const LoginScreen = connect (
+    mapStateToProps ,
     mapDispatchToProps
-)(Login);
+) ( Login );

@@ -6,7 +6,7 @@ import {NativeRouter, Route, Redirect} from "react-router-native";
 // Internal dependencies
 import {WrappersStyle} from "./src/style/wrappers.style";
 import {LoginScreen} from "./src/screen/Login.screen";
-import {SignupScreen} from "./src/screen/Signup.screen";
+import {SignUpScreen} from "./src/components/SignUp";
 import FacilityListScreen from "./src/screen/FacilityList.screen";
 import {Navigation} from "./src/components/navigation.component";
 import Store from './src/service/Redux.Store';
@@ -30,7 +30,7 @@ export default class App extends React.Component {
                         <LoginScreen/>
                     </Route>
                     <Route exact path="/signup">
-                        <SignupScreen/>
+                        <SignUpScreen/>
                     </Route>
                     <Route exact path="/host-edit-entries">
                         <View><Text>HOST EDIT ENTRIES SCREEN</Text></View>

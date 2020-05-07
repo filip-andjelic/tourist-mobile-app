@@ -1,6 +1,8 @@
 export const Types = {
     loginSuccess: 'REDUX_ACTION_loginSuccess',
+    signupSuccess: 'REDUX_ACTION_signupSuccess'
 };
+
 
 export const LoginAction = (data) => ({
     type: Types.loginSuccess,
@@ -14,3 +16,10 @@ export const LoginAction = (data) => ({
     rating: data.rating,
     token: data.token
 });
+export  const switchScreen = (data)=>(
+    {
+        type: Types.signupSuccess,
+        email: data.email,
+        password : data.password
+    }
+)

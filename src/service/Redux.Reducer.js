@@ -17,6 +17,12 @@ export default function (state = INITIAL_STATE, action) {
                 rating: data.rating,
                 token: data.token
             };
+        case Types.signupSuccess:
+            return{
+                ...state,
+                email: action.email,
+                password: action.password
+            }
         default: {
             return {
                 ...state
