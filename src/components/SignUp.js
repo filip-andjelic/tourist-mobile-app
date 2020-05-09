@@ -64,6 +64,9 @@ class SignUp extends React.Component {
                     <View style={{ marginBottom : 20 }}>
                         <TouchableOpacity
                             onPress={() => {
+                                this.setState({
+                                    redirect: "/facility-list"
+                                });
                                 if (this.state.password !== this.state.rePassword) {
                                     Toast.show ( "Passwords don't match!" , Toast.LONG )
                                     return
@@ -73,9 +76,7 @@ class SignUp extends React.Component {
                                     password : this.state.password,
 
                                 } )
-                                this.setState({
-                                    redirect: "/"
-                                })
+
                             }
                             }
                             style={{

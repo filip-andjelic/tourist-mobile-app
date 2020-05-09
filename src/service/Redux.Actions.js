@@ -1,9 +1,13 @@
 export const Types = {
     loginSuccess: 'REDUX_ACTION_loginSuccess',
-    signupSuccess: 'REDUX_ACTION_signupSuccess'
+    signupSuccess: 'REDUX_ACTION_signupSuccess',
+    currentFacility : 'REDUX_ACTION_currentFacility'
 };
 
-
+export const currentFacility = (data)=>({
+    type:Types.currentFacility,
+    currentFacility : data
+});
 export const LoginAction = (data) => ({
     type: Types.loginSuccess,
     email: data.email,

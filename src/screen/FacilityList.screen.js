@@ -6,37 +6,51 @@ import {Redirect} from "react-router-native";
 import {WrappersStyle} from "../style/wrappers.style";
 import {ScreensStyle} from "../style/screens.style";
 import {GeneralStyle} from "../style/general.style";
+import {LoginAction} from "../service/Redux.Actions";
+import {connect} from "react-redux";
+import {FacilityCard} from "../components/FacilityCard";
 
-export default class FacilityListScreen extends React.Component {
+class FacilityListScreen extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
-        return (<ScrollView style={[WrappersStyle.screenScrollableWrapper, ScreensStyle.facilityListWrapper]}>
+
+        return (<ScrollView style={[WrappersStyle.screenScrollableWrapper,
+            ScreensStyle.facilityListWrapper,
+            {backgroundColor : "#e9ebee"}]}>
             <View style={WrappersStyle.screenScrollableChild}>
                 <View style={GeneralStyle.row}>
                     <View style={GeneralStyle.equalSizeChild50Perc}></View>
                     <View style={GeneralStyle.equalSizeChild50Perc}></View>
                 </View>
-                <Text style={{
-                    backgroundColor: '#e3e3e3bb',
-                    paddingBottom: 30,
-                    marginBottom: 130
-                }}>FACILITY LIST
-                    COMPONENT</Text>
-                <Text style={{backgroundColor: '#e3e3e3bb', paddingBottom: 30, marginBottom: 130}}>FACILITY LIST
-                    COMPONENT</Text>
-                <Text style={{backgroundColor: '#e3e3e3bb', paddingBottom: 30, marginBottom: 130}}>FACILITY LIST
-                    COMPONENT</Text>
-                <Text style={{backgroundColor: '#e3e3e3bb', paddingBottom: 30, marginBottom: 130}}>FACILITY LIST
-                    COMPONENT</Text>
-                <Text style={{backgroundColor: '#e3e3e3bb', paddingBottom: 30, marginBottom: 130}}>FACILITY LIST
-                    COMPONENT</Text>
-                <Text style={{backgroundColor: '#e3e3e3bb', paddingBottom: 30, marginBottom: 130}}>FACILITY LIST
-                    COMPONENT</Text>
-                <Text style={{backgroundColor: 'red', marginBottom: 30}}>TRALALALAL</Text>
+                {
+                    this.props.facilities.map((facility)=>{
+                        return(
+                            <FacilityCard
+                                facility={facility}
+                            />
+                        )
+                    })
+                }
             </View>
         </ScrollView>);
     }
 };
+const mapStateToProps = (state) => {
+    return ({
+        facilities: state ? state.facilities : '',
+    });
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return ({
+        loginAction: params => dispatch(LoginAction(params)),
+    });
+};
+
+export const Facilities = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FacilityListScreen);

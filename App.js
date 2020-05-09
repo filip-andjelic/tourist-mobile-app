@@ -7,7 +7,7 @@ import {NativeRouter, Route, Redirect} from "react-router-native";
 import {WrappersStyle} from "./src/style/wrappers.style";
 import {LoginScreen} from "./src/screen/Login.screen";
 import {SignUpScreen} from "./src/components/SignUp";
-import FacilityListScreen from "./src/screen/FacilityList.screen";
+import {Facilities} from "./src/screen/FacilityList.screen";
 import {Navigation} from "./src/components/navigation.component";
 import Store from './src/service/Redux.Store';
 
@@ -23,7 +23,7 @@ export default class App extends React.Component {
             <View style={WrappersStyle.applicationWrapper}>
                 <NativeRouter>
                     <Route exact path="/facility-list">
-                        <FacilityListScreen/>
+                        <Facilities/>
                     </Route>
 
                     <Route exact path="/login">
@@ -39,7 +39,9 @@ export default class App extends React.Component {
                     <Route exact path="/">
                         <Redirect to="/login"/>
                     </Route>
-
+                    <Route exact path="/facility-detail">
+                        <View><Text>facility detail</Text></View>
+                    </Route>
                     <Navigation/>
                 </NativeRouter>
             </View>
